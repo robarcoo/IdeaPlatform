@@ -8,12 +8,15 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import com.example.core.Item
 
 @Composable
-fun DeleteAlertDialog() {
-    AlertDialog(onDismissRequest = {},
-        confirmButton = { TextButton(onClick = {}) { Text("Да") } },
-        dismissButton = { TextButton(onClick = {}) { Text("Нет")  } },
+fun DeleteAlertDialog(
+    closeDeleteWindow: () -> Unit,
+    deleteItem: () -> Unit) {
+    AlertDialog(onDismissRequest = closeDeleteWindow,
+        confirmButton = { TextButton(onClick = deleteItem) { Text("Да") } },
+        dismissButton = { TextButton(onClick = closeDeleteWindow) { Text("Нет")  } },
         icon = { Icon(painter = rememberVectorPainter(Icons.Default.Warning), contentDescription = "Delete Item Icon")}
     )
 }

@@ -1,6 +1,7 @@
 package com.example.feature.presentation
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -32,16 +33,17 @@ fun CatalogueScreen(viewModel: ItemViewModel) {
     val state = viewModel.state.collectAsState()
     val openEditWindow = viewModel.editWindow.collectAsState()
     val openDeleteWindow = viewModel.deleteWindow.collectAsState()
+    val item = viewModel.chosenItem.collectAsState()
     val textFieldState = remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
+    Column {
+        TopAppBar(title = { Text("Список товаров") })
 
-    TopAppBar(title = { Text("Список товаров") })
-
-    SearchBar(
+        SearchBar(
             inputField = {
                 SearchBarDefaults.InputField(
                     query = textFieldState.value,
-                    onQueryChange = { textFieldState.value = it},
+                    onQueryChange = { textFieldState.value = it },
                     onSearch = { active = false },
                     expanded = false,
                     onExpandedChange = { },
@@ -53,23 +55,36 @@ fun CatalogueScreen(viewModel: ItemViewModel) {
             expanded = false,
             onExpandedChange = {},
         ) {
-        LazyColumn(verticalArrangement = Arrangement.SpaceBetween) {
-            items(state.value) { card ->
-                ItemCard(productName = card.name,
-                    tagList = card.tags,
-                    inStorage = card.amount,
-                    date = getDate(card.time),
-                    openEditWindow = { viewModel.openEditWindow() },
-                    openDeleteWindow = { viewModel.openDeleteWindow() }
-                )
+            LazyColumn(verticalArrangement = Arrangement.SpaceBetween) {
+                items(state.value) { card ->
+                    ItemCard(productName = card.name,
+                        tagList = card.tags,
+                        inStorage = card.amount,
+                        date = getDate(card.time),
+                        openEditWindow = {
+                            viewModel.openEditWindow()
+                            viewModel.setItem(card)
+                                         },
+                        openDeleteWindow = {
+                            viewModel.openDeleteWindow()
+                            viewModel.setItem(card)
+                        }
+                    )
+                }
             }
         }
     }
-    if (openEditWindow.value) {
-        EditDialog()
-    }
-    if (openDeleteWindow.value) {
-        DeleteAlertDialog()
-    }
+        if (openEditWindow.value) {
+            EditDialog(closeEditWindow = { viewModel.closeEditWindow() },
+                editItem = { viewModel.editItem(item.value) }
+            )
+        }
+        if (openDeleteWindow.value) {
+            DeleteAlertDialog(
+                closeDeleteWindow = { viewModel.closeDeleteWindow() },
+                deleteItem = { viewModel.deleteItem(item.value) }
+            )
+        }
+
 
 }

@@ -16,11 +16,13 @@ import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.window.Dialog
 
 @Composable
-fun EditDialog() {
-    Dialog(onDismissRequest = { /*TODO*/ }) {
+fun EditDialog(
+    closeEditWindow: () -> Unit,
+    editItem: () -> Unit
+) {
+    Dialog(onDismissRequest = closeEditWindow) {
         Card {
             Column() {
-
                 Icon(
                     painter = rememberVectorPainter(image = Icons.Default.Settings),
                     contentDescription = "Edit Items"

@@ -33,6 +33,9 @@ class ItemViewModel(
     private val _deleteWindow : MutableStateFlow<Boolean> = MutableStateFlow(false)
     val deleteWindow : StateFlow<Boolean> = _deleteWindow.asStateFlow()
 
+    private val _chosenItem : MutableStateFlow<Item> = MutableStateFlow(Item())
+    val chosenItem : StateFlow<Item> = _chosenItem.asStateFlow()
+
     init {
         getItems()
     }
@@ -43,6 +46,12 @@ class ItemViewModel(
             getItemsUseCase.invoke().collect {
                 _state.emit(it)
             }
+        }
+    }
+
+    fun setItem(item : Item) {
+        _chosenItem.update {
+            item
         }
     }
 

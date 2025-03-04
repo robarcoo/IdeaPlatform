@@ -4,8 +4,11 @@ import com.example.core.Item
 import com.example.core.database.ItemDao
 import com.example.core.database.ItemDatabase
 import kotlinx.coroutines.flow.Flow
+import javax.inject.Inject
 
-class ItemRepositoryImpl(private val itemDao: ItemDao) : ItemRepository {
+class ItemRepositoryImpl @Inject constructor(private val itemDatabase: ItemDatabase) : ItemRepository {
+
+    private val itemDao = itemDatabase.itemDao()
 
     override suspend fun getItems() : Flow<List<Item>> {
         return itemDao.getItems()

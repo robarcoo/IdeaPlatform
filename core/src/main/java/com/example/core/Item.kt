@@ -4,9 +4,9 @@ import androidx.room.Entity
 
 @Entity
 data class Item(
-    val id : Int,
-    val name : String,
-    val time : Long,
-    val tags : List<String>,
-    val amount : Int
+    val id : Int = -1,
+    val name : String = "",
+    val time : Long = -1,
+    val tags : List<String> = listOf(),
+    val amount : Int = 0
 )
