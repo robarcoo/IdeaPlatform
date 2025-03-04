@@ -17,15 +17,21 @@ import androidx.compose.ui.unit.dp
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun ItemCard(productName : String, tagList: List<String>, inStorage : Int, date : String) {
+fun ItemCard(productName : String,
+             tagList: List<String>,
+             inStorage : Int,
+             date : String,
+             openEditWindow: () -> Unit,
+             openDeleteWindow: () -> Unit) {
+
     Card(modifier = Modifier.padding(8.dp)) {
         Row() {
             Text(text = productName, fontWeight = FontWeight.Bold)
             Row() {
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = openEditWindow) {
                     
                 }
-                IconButton(onClick = { /*TODO*/ }) {
+                IconButton(onClick = openDeleteWindow) {
                     
                 }
             }
