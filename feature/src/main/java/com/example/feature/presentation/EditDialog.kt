@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
@@ -39,15 +42,21 @@ fun EditDialog(
 ) {
     val editItem = remember { mutableStateOf(item) }
     Dialog(onDismissRequest = closeEditWindow) {
-        Card {
-            Column(modifier = Modifier.padding(16.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+        Card(colors = CardDefaults.cardColors(containerColor = Color.White),
+            shape = RoundedCornerShape(20.dp)
+        ) {
+            Column(modifier = Modifier.padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     painter = rememberVectorPainter(image = Icons.Default.Settings),
-                    contentDescription = "Edit Items"
+                    contentDescription = "Edit Items",
+                    tint = Color.DarkGray
                 )
-                Text("Количество товара", fontSize = 24.sp, modifier = Modifier.padding(vertical = 8.dp))
+                Text("Количество товара",
+                    fontSize = 24.sp,
+                    modifier = Modifier.padding(vertical = 16.dp),
+                    color = Color.Black)
                 Row(verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)) {
                     OutlinedButton(onClick = {
                         editItem.value = editItem.value.copy(amount = editItem.value.amount - 1)
                     },
@@ -57,7 +66,7 @@ fun EditDialog(
                     ) {
                         Text("—", fontSize = 30.sp, color = Color.Blue)
                     }
-                    Text("${editItem.value.amount}", fontSize = 18.sp)
+                    Text("${editItem.value.amount}", fontSize = 20.sp)
                     OutlinedButton(onClick = {
                         editItem.value = editItem.value.copy(amount = editItem.value.amount + 1)
                     },
@@ -69,15 +78,14 @@ fun EditDialog(
                         Text("+", fontSize = 35.sp, color = Color.Blue)
                     }
                 }
-                Row() {
+                Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.End) {
                     TextButton(onClick = closeEditWindow) {
-                        Text("Отмена")
+                        Text("Отмена", color = Color.DarkGray)
                     }
                     TextButton(onClick = {
-                        Log.d("ROOMZ", "${editItem.value}")
                         onItemEdited(editItem.value)
                     }) {
-                        Text("Принять")
+                        Text("Принять", color = Color.DarkGray)
                     }
                 }
             }
