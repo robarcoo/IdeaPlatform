@@ -1,5 +1,6 @@
 package com.example.feature.presentation
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -48,8 +50,8 @@ class ItemViewModel @Inject constructor(
 
     fun getItems() {
         viewModelScope.launch {
-            getItemsUseCase.invoke().collect {
-                _state.emit(it)
+            _state.update {
+                getItemsUseCase.invoke().first()
             }
         }
     }

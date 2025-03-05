@@ -16,7 +16,8 @@ internal class RoomModule {
     @Singleton
     @Provides
     fun provideDatabase(context: Context): ItemDatabase {
-        return Room.databaseBuilder(context, ItemDatabase::class.java, "database.db")
+        return Room.databaseBuilder(context, ItemDatabase::class.java, "database")
+            .createFromAsset("data.db")
             .build()
     }
 }

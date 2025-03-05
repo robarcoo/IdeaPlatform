@@ -1,9 +1,11 @@
 package com.example.feature.data
 
+import android.util.Log
 import com.example.core.Item
 import com.example.core.database.ItemDao
 import com.example.core.database.ItemDatabase
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import javax.inject.Inject
 
 class ItemRepositoryImpl @Inject constructor(private val itemDatabase: ItemDatabase) : ItemRepository {

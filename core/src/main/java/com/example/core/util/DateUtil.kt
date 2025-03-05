@@ -7,5 +7,5 @@ fun getDate(ts : Long?) : String {
     if (ts == null) return ""
     val calendar = Calendar.getInstance(Locale.getDefault())
     calendar.timeInMillis = ts
-    return android.text.format.DateFormat.format("dd.mm.yyyy", calendar).toString()
+    return android.text.format.DateFormat.format("dd.MM.yyyy", calendar).toString()
 }
