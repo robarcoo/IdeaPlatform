@@ -1,30 +1,31 @@
 package com.example.ideaplatform.di
 
-import com.example.core.di.android.AndroidDependenciesComponent
 import com.example.core.di.android.ApplicationProvider
+import com.example.feature.di.UseCaseModule
 import com.example.ideaplatform.IdeaApp
 import dagger.Component
 
+
+@Component(modules = [AndroidDependenciesModule::class])
 interface ApplicationComponent : ApplicationProvider {
 
     companion object {
 
         fun init(app: IdeaApp) : ApplicationProvider {
 
-            val androidDependenciesProvider = AndroidDependenciesComponent.create(app)
+            val androidDependenciesModule = AndroidDependenciesModule()
 
-            return DaggerApplicationComponent.factory()
-                .create(
-                    androidDependenciesProvider,
-                )
+            return DaggerApplicationComponent.factory().create(androidDependenciesModule)
+
         }
     }
 
     @Component.Factory
     interface Factory {
         fun create(
-            androidDependenciesProvider: AndroidDependenciesProvider,
+            androidDependenciesModule: AndroidDependenciesModule
         ): ApplicationComponent
     }
+
 
 }

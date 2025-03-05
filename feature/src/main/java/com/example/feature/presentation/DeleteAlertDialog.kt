@@ -12,10 +12,13 @@ import com.example.core.Item
 
 @Composable
 fun DeleteAlertDialog(
+    item: Item,
     closeDeleteWindow: () -> Unit,
-    deleteItem: () -> Unit) {
+    deleteItem: (Item) -> Unit) {
     AlertDialog(onDismissRequest = closeDeleteWindow,
-        confirmButton = { TextButton(onClick = deleteItem) { Text("Да") } },
+        confirmButton = { TextButton(onClick = {
+            deleteItem(item)
+        }) { Text("Да") } },
         dismissButton = { TextButton(onClick = closeDeleteWindow) { Text("Нет")  } },
         icon = { Icon(painter = rememberVectorPainter(Icons.Default.Warning), contentDescription = "Delete Item Icon")}
     )

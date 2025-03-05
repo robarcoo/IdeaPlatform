@@ -12,14 +12,20 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.window.Dialog
+import com.example.core.Item
 
 @Composable
 fun EditDialog(
+    item : Item,
     closeEditWindow: () -> Unit,
-    editItem: () -> Unit
+    onItemEdited: (Item) -> Unit
 ) {
+    val editItem by remember { mutableStateOf(item) }
     Dialog(onDismissRequest = closeEditWindow) {
         Card {
             Column() {
@@ -29,14 +35,14 @@ fun EditDialog(
                 )
                 Text("Количество товара")
                 Row() {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { editItem.amount-- }) {
                         Icon(
                             painter = rememberVectorPainter(Icons.Outlined.Clear),
                             contentDescription = ""
                         )
                     }
-                    Text("0")
-                    IconButton(onClick = {}) {
+                    Text("${editItem.amount}")
+                    IconButton(onClick = { editItem.amount++ }) {
                         Icon(
                             painter = rememberVectorPainter(Icons.Outlined.Add),
                             contentDescription = ""
@@ -44,11 +50,11 @@ fun EditDialog(
                     }
                 }
                 Row() {
-                    TextButton(onClick = { /*TODO*/ }) {
-
+                    TextButton(onClick = closeEditWindow) {
+                        Text("Отмена")
                     }
-                    TextButton(onClick = { /*TODO*/ }) {
-
+                    TextButton(onClick = { onItemEdited(editItem) }) {
+                        Text("Принять")
                     }
                 }
             }

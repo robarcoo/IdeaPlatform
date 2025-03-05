@@ -23,13 +23,17 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.Item
 import com.example.core.util.getDate
+import com.example.feature.di.LocalFactoryProvider
+import javax.inject.Inject
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CatalogueScreen(viewModel: ItemViewModel) {
+fun CatalogueScreen(viewModel: ItemViewModel = hiltViewModel()) {
     val state = viewModel.state.collectAsState()
     val openEditWindow = viewModel.editWindow.collectAsState()
     val openDeleteWindow = viewModel.deleteWindow.collectAsState()
@@ -75,14 +79,23 @@ fun CatalogueScreen(viewModel: ItemViewModel) {
         }
     }
         if (openEditWindow.value) {
-            EditDialog(closeEditWindow = { viewModel.closeEditWindow() },
-                editItem = { viewModel.editItem(item.value) }
+            EditDialog(
+                item = item.value,
+                closeEditWindow = { viewModel.closeEditWindow() },
+                onItemEdited = {
+                    viewModel.editItem(item.value)
+                    viewModel.closeEditWindow()
+                }
             )
         }
         if (openDeleteWindow.value) {
             DeleteAlertDialog(
+                item = item.value,
                 closeDeleteWindow = { viewModel.closeDeleteWindow() },
-                deleteItem = { viewModel.deleteItem(item.value) }
+                deleteItem = {
+                    viewModel.deleteItem(item.value)
+                    viewModel.closeDeleteWindow()
+                }
             )
         }
 

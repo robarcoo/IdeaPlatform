@@ -8,7 +8,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class AddItemUseCaseImpl
-    @Inject constructor(private val repository: ItemRepository, private val item: Item) : AddItemUseCase {
+    @Inject constructor(private val repository: ItemRepository) : AddItemUseCase {
     override suspend fun invoke(item: Item) = withContext(Dispatchers.IO) {
         return@withContext repository.createItem(item)
     }

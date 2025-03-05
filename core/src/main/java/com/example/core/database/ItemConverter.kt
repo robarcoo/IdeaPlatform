@@ -17,4 +17,17 @@ class ItemConverter {
         val type = object : TypeToken<Item?>() {}.type
         return Gson().fromJson(item, type)
     }
+
+    @TypeConverter
+    fun fromTagsList(tags: List<String>?): String? {
+        return if (tags.isNullOrEmpty()) null else Gson().toJson(tags)
+    }
+
+    @TypeConverter
+    fun toTagsList(tagsString: String?): List<String>? {
+        return tagsString?.let {
+            val listType = object : TypeToken<List<String>>() {}.type
+            Gson().fromJson(it, listType)
+        }
+    }
 }

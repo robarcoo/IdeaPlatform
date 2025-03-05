@@ -5,9 +5,10 @@ import com.example.core.database.ItemDatabase
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Scope
+import javax.inject.Singleton
 
-@DatabaseScope
-@Component
+@Singleton
+@Component(modules = [RoomModule::class])
 abstract class DatabaseComponent {
     @Component.Builder
     interface Builder {
@@ -36,6 +37,3 @@ abstract class DatabaseComponent {
 
 }
 
-@Scope
-@Retention(AnnotationRetention.RUNTIME)
-annotation class DatabaseScope
