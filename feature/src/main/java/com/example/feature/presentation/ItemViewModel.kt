@@ -88,6 +88,7 @@ class ItemViewModel @Inject constructor(
     }
 
     fun editItem(item : Item) {
+        Log.d("ROOMZ", "$item")
         viewModelScope.launch {
             editItemUseCase.invoke(item)
             val temp = state.value.toMutableList().map {

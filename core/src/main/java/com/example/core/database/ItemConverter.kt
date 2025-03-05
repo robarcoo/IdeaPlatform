@@ -20,7 +20,7 @@ class ItemConverter {
 
     @TypeConverter
     fun fromTagsList(tags: List<String>?): String? {
-        return if (tags.isNullOrEmpty()) null else Gson().toJson(tags)
+        return Gson().toJson(tags)
     }
 
     @TypeConverter

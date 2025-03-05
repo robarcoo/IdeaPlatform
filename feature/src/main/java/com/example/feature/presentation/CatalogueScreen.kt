@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.input.rememberTextFieldState
@@ -12,9 +14,13 @@ import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -23,7 +29,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.Item
@@ -40,27 +48,25 @@ fun CatalogueScreen(viewModel: ItemViewModel = hiltViewModel()) {
     val openDeleteWindow = viewModel.deleteWindow.collectAsState()
     val item = viewModel.chosenItem.collectAsState()
     val textFieldState = remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
     Column(modifier = Modifier.fillMaxSize()) {
         TopAppBar(title = { Text("Список товаров") })
-            LazyColumn(verticalArrangement = Arrangement.SpaceBetween) {
+            LazyColumn(verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.padding(8.dp)) {
                 item {
-                    SearchBar(
-                        inputField = {
-                            SearchBarDefaults.InputField(
-                                query = textFieldState.value,
-                                onQueryChange = { textFieldState.value = it },
-                                onSearch = { active = false },
-                                expanded = false,
-                                onExpandedChange = { },
-                                placeholder = { Text("Hinted search text") },
-                                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
-                                trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
-                            )
-                        },
-                        expanded = false,
-                        onExpandedChange = {},
-                    ) {}
+                    OutlinedTextField(value = textFieldState.value,
+                        onValueChange = { textFieldState.value = it },
+                        label = { Text("Поиск товаров") },
+                        leadingIcon = { Icon(Icons.Default.Search, contentDescription = "",
+                            tint = Color.DarkGray)},
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = OutlinedTextFieldDefaults.colors(cursorColor = Color.DarkGray,
+                            focusedLabelColor = Color.DarkGray,
+                            unfocusedLabelColor = Color.Gray,
+                            unfocusedContainerColor = Color.White,
+                            focusedContainerColor = Color.White,
+                            unfocusedBorderColor = Color.DarkGray,
+                            focusedBorderColor = Color.Blue)
+                    )
                 }
                 items(state.value) { card ->
                     ItemCard(productName = card.name,
@@ -84,8 +90,8 @@ fun CatalogueScreen(viewModel: ItemViewModel = hiltViewModel()) {
             EditDialog(
                 item = item.value,
                 closeEditWindow = { viewModel.closeEditWindow() },
-                onItemEdited = {
-                    viewModel.editItem(item.value)
+                onItemEdited = { newItem ->
+                    viewModel.editItem(newItem)
                     viewModel.closeEditWindow()
                 }
             )
@@ -94,8 +100,8 @@ fun CatalogueScreen(viewModel: ItemViewModel = hiltViewModel()) {
             DeleteAlertDialog(
                 item = item.value,
                 closeDeleteWindow = { viewModel.closeDeleteWindow() },
-                deleteItem = {
-                    viewModel.deleteItem(item.value)
+                deleteItem = { thisItem ->
+                    viewModel.deleteItem(thisItem)
                     viewModel.closeDeleteWindow()
                 }
             )
