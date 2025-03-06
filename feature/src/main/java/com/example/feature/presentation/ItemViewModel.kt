@@ -109,6 +109,10 @@ class ItemViewModel @Inject constructor(
     fun deleteItem(item: Item) {
         viewModelScope.launch {
             deleteItemUseCase.invoke(item)
+            val temp = _state.value.toMutableList().filter { it.id != item.id }
+            _state.update {
+                temp
+            }
         }
     }
 
