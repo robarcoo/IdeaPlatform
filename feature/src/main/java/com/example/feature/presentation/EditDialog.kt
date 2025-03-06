@@ -29,10 +29,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.example.core.Item
+import com.example.feature.R
 
 @Composable
 fun EditDialog(
@@ -43,15 +45,15 @@ fun EditDialog(
     val editItem = remember { mutableStateOf(item) }
     Dialog(onDismissRequest = closeEditWindow) {
         Card(colors = CardDefaults.cardColors(containerColor = Color.White),
-            shape = RoundedCornerShape(20.dp)
-        ) {
+            shape = RoundedCornerShape(20.dp)) {
             Column(modifier = Modifier.padding(32.dp), horizontalAlignment = Alignment.CenterHorizontally) {
                 Icon(
                     painter = rememberVectorPainter(image = Icons.Default.Settings),
-                    contentDescription = "Edit Items",
+                    contentDescription = stringResource(R.string.edit_items_icon_description),
                     tint = Color.DarkGray
                 )
-                Text("Количество товара",
+                Text(
+                    stringResource(R.string.item_amount_label),
                     fontSize = 24.sp,
                     modifier = Modifier.padding(vertical = 16.dp),
                     color = Color.Black)
@@ -64,7 +66,7 @@ fun EditDialog(
                         contentPadding = PaddingValues(0.dp),
                         border = BorderStroke(2.dp, Color.Blue)
                     ) {
-                        Text("—", fontSize = 30.sp, color = Color.Blue)
+                        Text(stringResource(R.string.remove_item), fontSize = 30.sp, color = Color.Blue)
                     }
                     Text("${editItem.value.amount}", fontSize = 20.sp)
                     OutlinedButton(onClick = {
@@ -75,17 +77,21 @@ fun EditDialog(
                         border = BorderStroke(2.dp, Color.Blue)
                     ) {
 
-                        Text("+", fontSize = 35.sp, color = Color.Blue)
+                        Text(text = stringResource(R.string.add_item),
+                            fontSize = 35.sp,
+                            color = Color.Blue)
                     }
                 }
-                Row(modifier = Modifier.fillMaxWidth().padding(top = 16.dp), horizontalArrangement = Arrangement.End) {
+                Row(modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 16.dp), horizontalArrangement = Arrangement.End) {
                     TextButton(onClick = closeEditWindow) {
-                        Text("Отмена", color = Color.DarkGray)
+                        Text(stringResource(R.string.cancel_edit), color = Color.DarkGray)
                     }
                     TextButton(onClick = {
                         onItemEdited(editItem.value)
                     }) {
-                        Text("Принять", color = Color.DarkGray)
+                        Text(text = stringResource(R.string.accept_edit), color = Color.DarkGray)
                     }
                 }
             }

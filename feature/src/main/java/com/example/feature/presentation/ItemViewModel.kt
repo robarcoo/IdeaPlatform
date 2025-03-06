@@ -48,7 +48,7 @@ class ItemViewModel @Inject constructor(
     }
 
 
-    fun getItems() {
+    private fun getItems() {
         viewModelScope.launch {
             _state.update {
                 getItemsUseCase.invoke().first()
@@ -88,7 +88,6 @@ class ItemViewModel @Inject constructor(
     }
 
     fun editItem(item : Item) {
-        Log.d("ROOMZ", "$item")
         viewModelScope.launch {
             editItemUseCase.invoke(item)
             val temp = state.value.toMutableList().map {

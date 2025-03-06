@@ -1,8 +1,6 @@
 package com.example.feature.di
 
 import android.content.Context
-import com.example.core.database.ItemDatabase
-import com.example.core.di.room.DaggerDatabaseComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Scope

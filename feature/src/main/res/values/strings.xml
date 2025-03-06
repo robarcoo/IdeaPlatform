@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="edit_item_icon">Редактировать товар</string>
+    <string name="delete_item_icon">Удалить товар</string>
+    <string name="in_stock_label">На складе</string>
+    <string name="added_date_label">Дата добавления</string>
+    <string name="confirm_button_text">Да</string>
+    <string name="delete_item_dialog_title">Удаление товара</string>
+    <string name="delete_item_dialog_text">Вы действительно хотите удалить выбранный товар?</string>
+    <string name="dismiss_button_text">Нет</string>
+    <string name="delete_item_icon_description">Delete Item Icon</string>
+    <string name="edit_items_icon_description">Edit Items</string>
+    <string name="item_amount_label">Количество товара</string>
+    <string name="remove_item">—</string>
+    <string name="add_item">+</string>
+    <string name="cancel_edit">Отмена</string>
+    <string name="accept_edit">Принять</string>
+    <string name="item_list_top_bar">Список товаров</string>
+    <string name="item_search_label">Поиск товаров</string>
+    <string name="clear_text_icon_description">Clear Text</string>
+    <string name="search_icon_description">Search</string>
+</resources>

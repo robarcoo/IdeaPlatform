@@ -13,8 +13,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.example.core.Item
+import com.example.feature.R
 
 @Composable
 fun DeleteAlertDialog(
@@ -25,12 +27,15 @@ fun DeleteAlertDialog(
         modifier = Modifier.padding(16.dp),
         confirmButton = { TextButton(onClick = {
             deleteItem(item)
-        }) { Text("Да") } },
-        title = { Text("Удаление товара", color = Color.Black) },
-        dismissButton = { TextButton(onClick = closeDeleteWindow) { Text("Нет")  } },
+        }) { Text(stringResource(R.string.confirm_button_text)) } },
+        title = { Text(stringResource(R.string.delete_item_dialog_title), color = Color.Black) },
+        dismissButton = { TextButton(onClick = closeDeleteWindow) {
+            Text(stringResource(R.string.dismiss_button_text))  } },
         containerColor = Color.White,
         shape = RoundedCornerShape(20.dp),
-        text = { Text("Вы действительно хотите удалить выбранный товар?", color = Color.Gray)},
-        icon = { Icon(Icons.Default.Warning, contentDescription = "Delete Item Icon", tint = Color.DarkGray)}
+        text = { Text(stringResource(R.string.delete_item_dialog_text), color = Color.Gray)},
+        icon = { Icon(Icons.Default.Warning,
+            contentDescription = stringResource(R.string.delete_item_icon_description),
+            tint = Color.DarkGray)}
     )
 }
